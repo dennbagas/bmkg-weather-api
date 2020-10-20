@@ -31,19 +31,15 @@ async.forEachOf(bmkg_data, (link, key, callback) => {
     if (err) {
         console.log(err);
     } else {
-        const fileA = path.join(__dirname, '../data/weather.json');
-        const fileB = path.join(__dirname, '../data/test.json');
+        const dir = path.join(__dirname, '../data')
+        const file = path.join(dir, '/weather.json');
         const data = JSON.stringify(dataArray);
 
-        fs.writeFile(fileA, data, 'utf-8', (e => {
-            if (e) {
-                console.log(e);
-            } else {
-                console.log('done get weather');
-            }
-        }));
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+        }
 
-        fs.writeFile(fileB, data, 'utf-8', (e => {
+        fs.writeFile(file, data, 'utf-8', (e => {
             if (e) {
                 console.log(e);
             } else {
