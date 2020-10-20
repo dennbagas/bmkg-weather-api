@@ -32,6 +32,7 @@ async.forEachOf(bmkg_data, (link, key, callback) => {
         console.log(err);
     } else {
         const fileA = path.join(__dirname, '../data/weather.json');
+        const fileB = path.join(__dirname, '../data/test.json');
         const data = JSON.stringify(dataArray);
 
         fs.writeFile(fileA, data, 'utf-8', (e => {
@@ -41,9 +42,6 @@ async.forEachOf(bmkg_data, (link, key, callback) => {
                 console.log('done get weather');
             }
         }));
-
-        const fileB = path.join(__dirname, '../data/test.json');
-        const data = JSON.stringify(dataArray);
 
         fs.writeFile(fileB, data, 'utf-8', (e => {
             if (e) {
