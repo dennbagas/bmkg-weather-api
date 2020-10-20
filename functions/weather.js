@@ -3,11 +3,12 @@ const express = require('express');
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const fs = require("fs");
+const request = require("request-promise");
 
 const app = express();
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const rawcity = req.query.kota;
 
     let city;
@@ -21,10 +22,11 @@ router.get('/', (req, res) => {
         return res.send("parameter kota tidak boleh kosong")
     }
 
-    const contents = fs.readFileSync(require.resolve('../data/weather.json'))
+    let weatherData;;
+    const link = 'https://bmkg-weather-api.netlify.app/data/weather.json';
+    weatherData = await request({ url: link, json: true })
 
-    let weather = JSON.parse(contents.toString());
-    let weatherData = weather.filter((element) => element.kota.includes(city));
+    weatherData = weatherData.filter((element) => element.kota.includes(city));
 
     if (weatherData.length > 0) {
         return res.json(weatherData[0]);
