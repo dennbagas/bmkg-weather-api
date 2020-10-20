@@ -3,47 +3,46 @@ const bmkg_data = require("./bmkg_data");
 const xml = require("xml2js");
 const request = require("request");
 const async = require("async");
+const path = require('path');
 
-module.exports.get = async () => {
-    let dataArray = [];
+let dataArray = [];
 
-    console.log('getting weather data...');
+console.log('getting weather data...');
 
-    async.forEachOf(bmkg_data, (link, key, callback) => {
-        request(link, function (error, response, body) {
-            console.log(link);
-            if (!error && response.statusCode == 200) {
-                // parse XML to Json
-                xml.parseString(response.body, function (err, result) {
+async.forEachOf(bmkg_data, (link, key, callback) => {
+    request(link, function (error, response, body) {
+        console.log(link);
+        if (!error && response.statusCode == 200) {
+            // parse XML to Json
+            xml.parseString(response.body, function (err, result) {
 
-                    let data = formatDataBmkg(result);
+                let data = formatDataBmkg(result);
 
-                    if (err) {
-                        console.log(err)
-                    } else {
-                        data.forEach(e => dataArray.push(e))
-                    }
-                    callback();
-                });
-            }
-        });
-    }, (err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            const file = 'cache/weather.json';
-            const data = JSON.stringify(dataArray);
-
-            fs.writeFile(file, data, 'utf-8', (e => {
-                if (e) {
-                    console.log(e);
+                if (err) {
+                    console.log(err)
                 } else {
-                    console.log('done get weather');
+                    data.forEach(e => dataArray.push(e))
                 }
-            }));
+                callback();
+            });
         }
-    })
-};
+    });
+}, (err) => {
+    if (err) {
+        console.log(err);
+    } else {
+        const file = path.join(__dirname, '../data/weather.json');
+        const data = JSON.stringify(dataArray);
+
+        fs.writeFile(file, data, 'utf-8', (e => {
+            if (e) {
+                console.log(e);
+            } else {
+                console.log('done get weather');
+            }
+        }));
+    }
+});
 
 function formatDataBmkg(json) {
     const data = json.data.forecast[0].area

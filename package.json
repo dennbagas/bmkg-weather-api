@@ -4,16 +4,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "collect:data": "node ./resource/resource.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async": "^3.1.0",
+    "async": "^3.2.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "request": "^2.88.0",
-    "xml2js": "^0.4.22"
+    "request": "^2.88.2",
+    "serverless-http": "^2.6.0",
+    "xml2js": "^0.4.23"
   }
 }
