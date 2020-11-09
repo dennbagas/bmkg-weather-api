@@ -2,7 +2,7 @@ name: Publish on Netlify
 
 on:
   schedule:
-    - cron: "0 0 */3 * *"
+    - cron: "40 11 * * *"
 
 jobs:
   publish:
@@ -18,5 +18,4 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-          args: deploy --dir=build --prod
-          secrets: '["NETLIFY_AUTH_TOKEN", "NETLIFY_SITE_ID"]'
+          args: deploy --dir=site --functions=functions
