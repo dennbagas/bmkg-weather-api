@@ -2,7 +2,7 @@ name: Publish on Netlify
 
 on:
   schedule:
-    - cron: "2 16 */1 * *"
+    - cron: "6 16 */1 * *"
 
 jobs:
   publish:
